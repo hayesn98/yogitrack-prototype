@@ -83,7 +83,7 @@ exports.getPackageIds = async (req, res) => {
 };
 
 exports.getNextId = async (req, res) => {
-  const lastPackage = await Packages.find({})
+  const lastPackage = await Package.find({})
     .sort({ packageId: -1 })
     .limit(1);
 
