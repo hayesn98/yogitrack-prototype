@@ -35,7 +35,7 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
       packageId: nextId,
       name: form.name.value.trim(),
       category: form.category[0].checked ? "general" : "senior",
-      classnum: document.quertySelector('input[name="classnum"]:checked').value,
+      classnum: form.classnum.value.trim(),
       classtype: form.classtype[0].checked ? "general" : "special",
       startdate: form.startdate.value.trim(),
       enddate: form.enddate.value.trim(),
@@ -121,6 +121,7 @@ async function addPackageDropdownListener() {
       form.startdate.value = data.startdate || "";
       form.enddate.value = data.enddate || "";
       form.price.value = data.price || "";
+      form.classnum.value = data.classnum || "";
 
       if (data.category === "general") {
         form.category[0].checked = true;
@@ -129,16 +130,6 @@ async function addPackageDropdownListener() {
       if (data.classtype === "general") {
         form.classtype[0].checked = true;
       } else form.classtype[1].checked = true;
-
-      if (data.classnum === "one") {
-        form.classnum[0].checked = true;
-      } 
-      else if (data.classnum === "four") {
-        form.classnum[1].checked = true;
-      }
-      else if (data.classnum === "ten") {
-        form.classnum[2].checked = true;
-      } else form.classnum[3].checked = true;
     } catch (err) {
       alert(`Error searching package: ${packageId} - ${err.message}`);
     }

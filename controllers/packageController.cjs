@@ -47,7 +47,7 @@ exports.add = async (req, res) => {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    // Create a new instructor document
+    // Create a new package document
     const newPackage = new Package({
       packageId,
       name,
