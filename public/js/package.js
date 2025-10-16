@@ -121,11 +121,18 @@ async function addPackageDropdownListener() {
       form.startdate.value = data.startdate || "";
       form.enddate.value = data.enddate || "";
       form.price.value = data.price || "";
-      form.classnum.value = data.classnum || "";
 
       if (data.category === "general") {
         form.category[0].checked = true;
       } else form.category[1].checked = true;
+
+      if (data.classnum === "1") {
+        form.classnum[0].checked = true;
+      } else if (data.classnum === "4") {
+        form.classnum[1].checked = true;
+      } else if (data.classnum === "10") {
+        form.classnum[2].checked = true;
+      } else form.classnum[3].checked = true;
 
       if (data.classtype === "general") {
         form.classtype[0].checked = true;
