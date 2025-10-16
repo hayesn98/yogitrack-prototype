@@ -37,11 +37,24 @@ exports.add = async (req, res) => {
             email,
             phone,
             preferredContact,
-            classBalance
+            classBalance,
+            forceAdd
         } = req.body;
 
         if (!firstname || !lastname || !email || !phone) {
             return res.status(400).json({ message: "Missing required fields" });
+        }
+
+        const allCustomers = await Customer.find({});
+        if (!forceAdd) {
+            for (let i = 0; i < allCustomers.length; i++) {
+                if (allCustomers[i].firstname === firstname && allCustomers[i].lastname === lastname) {
+                    return res.status(409).json({
+                        message: "A customer with this first and last name already exists. Do you want to add them anyway?",
+                        duplicate: true
+                    });
+                }
+            }
         }
 
         const newCustomer = new Customer({

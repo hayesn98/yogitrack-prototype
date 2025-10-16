@@ -38,20 +38,42 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
       email: form.email.value.trim(),
       phone: form.phone.value.trim(),
       preferredContact: form.pref[0].checked ? "phone" : "email",
-      classbalance: form.classbalance.value.trim()
+      classBalance: 0
     };
     try {
-      const res = await fetch("/api/customer/add", {
+      let res = await fetch("/api/customer/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(customerData),
       });
 
-      const result = await res.json();
-      if (!res.ok)
+      let result = await res.json();
+
+      if (res.status === 409 && result.duplicate) {
+        if (confirm(`${result.message}`)) {
+          customerData.forceAdd = true;
+
+          res = await fetch("/api/customer/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(customerData),
+          });
+
+          result = await res.json();
+
+          if (!res.ok)
+            throw new Error(result.message || "Failed to add customer");
+        }
+        else {
+          throw new Error("Customer was not added.");
+        }
+      }
+      else if (!res.ok) {
         throw new Error(result.message || "Failed to add customer");
+      }
 
       alert(`✅ Customer ${customerData.customerId} added successfully!`);
+      alert(`Welcome to Yoga'Hom! Your customer id is ${customerData.customerId}.`);
       form.reset();
     } catch (err) {
       alert("❌ Error: " + err.message);
@@ -124,6 +146,8 @@ async function addCustomerDropdownListener() {
       if (data.preferredContact === "phone") {
         form.pref[0].checked = true;
       } else form.pref[1].checked = true;
+
+      form.classBalance.value = data.classBalance || "";
     } catch (err) {
       alert(`Error searching package: ${customerId} - ${err.message}`);
     }
