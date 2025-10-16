@@ -38,12 +38,25 @@ exports.add = async (req, res) => {
       email,
       phone,
       address,
-      preferredContact
+      preferredContact,
+      forceAdd
     } = req.body;
 
     // Basic validation
     if (!firstname || !lastname || !email || !phone) {
       return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const allInstructors = await Instructor.find({});
+    if (!forceAdd) {
+      for (let i = 0; i < allInstructors.length; i++) {
+        if (allInstructors[i].firstname === firstname && allInstructors[i].lastname === lastname) {
+          return res.status(409).json({
+            message: "An instructor with this first and last name already exists. Do you want to add them anyway?",
+            duplicate: true
+          });
+        }
+      }
     }
 
     // Create a new instructor document

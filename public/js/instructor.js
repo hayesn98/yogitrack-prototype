@@ -41,17 +41,39 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
       preferredContact: form.pref[0].checked ? "phone" : "email",
     };
     try {
-      const res = await fetch("/api/instructor/add", {
+      let res = await fetch("/api/instructor/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(instructorData),
       });
 
-      const result = await res.json();
-      if (!res.ok)
+      let result = await res.json();
+
+      if (res.status === 409 && result.duplicate) {
+        if (confirm(`${result.message}`)) {
+          instructorData.forceAdd = true;
+
+          res = await fetch("/api/instructor/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(instructorData),
+          });
+
+          result = await res.json();
+
+          if (!res.ok)
+            throw new Error(result.message || "Failed to add instructor");
+        }
+        else {
+          throw new Error("Instructor was not added.");
+        }
+      }
+      else if (!res.ok) {
         throw new Error(result.message || "Failed to add instructor");
+      }
 
       alert(`✅ Instructor ${instructorData.instructorId} added successfully!`);
+      alert(`Welcome to Yoga'Hom! Your instructor id is ${instructorData.instructorId}.`);
       form.reset();
     } catch (err) {
       alert("❌ Error: " + err.message);
