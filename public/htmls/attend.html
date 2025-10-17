@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>YogiTrack • Customers</title>
+  <title>YogiTrack • Instructors</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="layout--sidebar">
@@ -23,10 +23,38 @@
     </nav>
   </aside>
 
-  <!-- Customer form -->
+  <!-- Attendance form -->
   <main class="layout--center">
-    <form class="card" id="customerForm" >
-      <h2>Customer Details</h2>
+    <form class="card" id="attendForm" >
+      <h2>Attendance Details</h2>
+
+      <!-- Instructor Id-->
+      <label id = "instructorIdLabel" for="instructorID">Instructor ID
+        <select name="instructorId" id="instructorIdSelect" class="form-input" required>
+          <option value=""> -- Select Instructor Id --</option>
+          <!-- Options will be populated by JavaScript-->
+        </select>
+      </label>
+
+      <label>
+        <!-- Toggle with InstructorIdLabel -->
+         <label id="instructorIdTextLabel" style="display: none;">Instructor ID</label>
+         <input id="instructorIdText" type="text" readonly/>
+      </label>
+
+      <!-- Instructor Id2-->
+      <label id = "instructorIdLabel2" for="instructorID2">Class Name
+        <select name="instructorId2" id="instructorIdSelect2" class="form-input" required>
+          <option value=""> -- Select Class --</option>
+          <!-- Options will be populated by JavaScript-->
+        </select>
+      </label>
+
+      <label>
+        <!-- Toggle with InstructorIdLabel2 -->
+         <label id="instructorIdTextLabel2" style="display: none;">Class Name</label>
+         <input id="instructorIdText2" type="text" readonly/>
+      </label>
 
       <!-- Customer Id-->
       <label id = "customerIdLabel" for="customerID">Customer ID
@@ -42,53 +70,25 @@
          <input id="customerIdText" type="text" readonly/>
       </label>
 
-      <input type="text" id="customerIdText" name="customerId" readonly hidden />
-
-
       <div class="grid-2">
-        <label>First&nbsp;Name
-          <input type="text" name="firstname">
+        <label>Attendance Date
+          <input type="date" name="date">
         </label>
-        <label>Last&nbsp;Name
-          <input type="text" name="lastname">
-        </label>
-      </div>
-
-      <div class="grid-2">
-        <label>Email
-          <input type="email" name="email">
-        </label>
-        <label>Phone
-          <input type="tel" name="phone">
-        </label>
-      </div>
-
-      <fieldset>
-        <legend>Preferred Contact</legend>
-        <div class="radio-row">
-          <label><input type="radio" name="pref" value="phone">Phone</label>
-          <label><input type="radio" name="pref" value="email">Email</label>
-        </div>
-      </fieldset>
-
-      <div class="grid-2">
-        <label>Class Balance
-            <input type="text" name="classBalance" readonly>
+        <label>Attendance Time
+          <input type="time" name="time">
         </label>
       </div>
 
       <!-- Action buttons -->
       <div class="btn-row">
-        <button type="button" class="btn" id="searchBtn">Search</button>
-        <button type="button" class="btn btn--primary", id="addBtn">Add&nbsp;New</button>
+        <button type="button" class="btn", id="classBtn">Find Classes</button>
         <button type="button" class="btn", id="saveBtn">Save</button>
-        <button type="button" class="btn btn--danger" id="deleteBtn">Delete</button>
-        <button type="button" class="btn" onclick="clearCustomerForm()">Clear</button>
+        <button type="button" class="btn" onclick="clearSaleForm()">Clear</button>
         <a href="dashboard.html" class="btn">Exit</a>
       </div>
     </form>
   </main>
 
-<script src="../js/customer.js"></script>
+<script src="../js/attend.js"></script>
 </body>
 </html>
