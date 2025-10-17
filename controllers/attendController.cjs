@@ -1,4 +1,4 @@
-const Sale = require("../models/saleModel.cjs");
+const Attend = require("../models/attendModel.cjs");
 const Instructor = require("../models/instructorModel.cjs");
 const Class = require("../models/classModel.cjs");
 const Customer = require("../models/customerModel.cjs");
