@@ -8,7 +8,7 @@ const customerModel = new mongoose.Schema({
     email: String,
     phone: String,
     preferredContact: String,
-    classBalance: String
+    classBalance: Number
 }, {collection:"customer"});
 
 module.exports = mongoose.model("Customer", customerModel);
