@@ -13,6 +13,12 @@ document.getElementById("classBtn").addEventListener("click", async () => {
         initClassDropdown(form.instructorId.value.trim());
         formMode = "add";
     }
+
+    let currDateTime = new Date();
+    let currDate = currDateTime.getFullYear() + "-" + String(currDateTime.getMonth() + 1).padStart(2, "0") + "-" + String(currDateTime.getDate()).padStart(2, "0");
+    form.date.value = currDate;
+    let currTime = String(currDateTime.getHours()).padStart(2, "0") + ":" + String(currDateTime.getMinutes()).padStart(2, "0");
+    form.time.value = currTime;
 });
 
 document.getElementById("saveBtn").addEventListener("click", async () => {
