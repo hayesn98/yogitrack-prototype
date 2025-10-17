@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("../config/mongodbconn.cjs");
 
-const saleModel = new mongoose.Schema({
+const attendModel = new mongoose.Schema({
     instructorId: String,
     customerId: String,
     date: String,

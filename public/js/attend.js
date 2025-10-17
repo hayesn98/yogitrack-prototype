@@ -17,30 +17,26 @@ document.getElementById("classBtn").addEventListener("click", async () => {
 
 document.getElementById("saveBtn").addEventListener("click", async () => {
     if (formMode === "add") {
-        const form = document.getElementById("saleForm");
+        const form = document.getElementById("attendForm");
 
-        const saleData = {
-            packageId: form.packageId.value.trim(),
-            amountPaid: form.amountPaid.value.trim(),
-            paymentMode: form.paymentMode.value.trim(),
+        const attendData = {
+            instructorId: form.instructorId.value.trim(),
+            customerId: form.customerId.value.trim(),
             date: form.date.value.trim(),
             time: form.time.value.trim(),
-            startDate: form.startDate.value.trim(),
-            endDate: form.endDate.value.trim(),
-            customerId: form.customerId.value.trim(),
         };
         try {
-            const res = await fetch("/api/sale/add", {
+            const res = await fetch("/api/attend/add", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(saleData),
+                body: JSON.stringify(attendData),
             });
 
             const result = await res.json();
             if (!res.ok)
-                throw new Error(result.message || "Failed to add sale");
+                throw new Error(result.message || "Failed to add attendance");
 
-            alert(`✅ Sale for package ${saleData.packageId} added successfully!`);
+            alert(`✅ Attendance added successfully!`);
             form.reset();
             formMode = "idle";
         } catch (err) {
@@ -52,7 +48,7 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
 async function initInstructorDropdown() {
   const select = document.getElementById("instructorIdSelect");
   try {
-    const response = await fetch("/api/instructor/getInstructorIds");
+    const response = await fetch("/api/attend/getInstructorIds");
     const instructorIds = await response.json();
 
     instructorIds.forEach((instr) => {
@@ -88,7 +84,7 @@ async function initClassDropdown(givenId) {
 async function initCustomerDropdown() {
   const select = document.getElementById("customerIdSelect");
   try {
-    const response = await fetch("/api/customer/getCustomerIds");
+    const response = await fetch("/api/attend/getCustomerIds");
     const customerIds = await response.json();
 
     customerIds.forEach((cust) => {
@@ -102,20 +98,26 @@ async function initCustomerDropdown() {
   }
 }
 
-function clearSaleForm() {
-    document.getElementById("saleForm").reset();
-    document.getElementById("packageIdSelect").innerHTML = "";
+function clearAttendForm() {
+    document.getElementById("attendForm").reset();
+    document.getElementById("instructorIdSelect").innerHTML = "";
+    document.getElementById("instructorIdSelect2").innerHTML = "";
+    document.getElementById("customerIdSelect").innerHTML = "";
 }
 
 function setFormForAdd() {
     formMode = "idle";
-    document.getElementById("packageIdLabel").style.display = "block";
-    document.getElementById("packageIdTextLabel").style.display = "none";
-    document.getElementById("packageIdText").value = "";
-    document.getElementById("packageIdText").style.display = "none";
+    document.getElementById("instructorIdLabel").style.display = "block";
+    document.getElementById("instructorIdTextLabel").style.display = "none";
+    document.getElementById("instructorIdText").value = "";
+    document.getElementById("instructorIdText").style.display = "none";
+    document.getElementById("instructorIdLabel2").style.display = "block";
+    document.getElementById("instructorIdTextLabel2").style.display = "none";
+    document.getElementById("instructorIdText2").value = "";
+    document.getElementById("instructorIdText2").style.display = "none";
     document.getElementById("customerIdLabel").style.display = "block";
     document.getElementById("customerIdTextLabel").style.display = "none";
     document.getElementById("customerIdText").value = "";
     document.getElementById("customerIdText").style.display = "none";
-    document.getElementById("saleForm").reset();
+    document.getElementById("attendForm").reset();
 }
