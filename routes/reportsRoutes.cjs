@@ -3,6 +3,7 @@ const router = express.Router();
 const reportsController = require("../controllers/reportsController.cjs");
 
 router.post("/package", reportsController.package);
+router.post("/instructor", reportsController.instructor);
 router.get("/getPackageIds", reportsController.getPackageIds);
 router.get("/getInstructorIds", reportsController.getInstructorIds);
 router.get("/getClassIds", reportsController.getClassIds);

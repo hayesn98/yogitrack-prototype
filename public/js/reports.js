@@ -20,6 +20,8 @@ document.getElementById("packageBtn").addEventListener("click", async () => {
     document.getElementById("salesNumLabel").style.visibility = "visible";
     document.getElementById("instructorIdLabel").style.visibility = "hidden";
     document.getElementById("instructorIdSelect").style.visibility = "hidden";
+    document.getElementById("checkIns").style.visibility = "hidden";
+    document.getElementById("checkInsLabel").style.visibility = "hidden";
     document.getElementById("instructorIdLabel2").style.visibility = "hidden";
     document.getElementById("instructorIdSelect2").style.visibility = "hidden";
     document.getElementById("customerIdLabel").style.visibility = "hidden";
@@ -38,8 +40,10 @@ document.getElementById("instructorBtn").addEventListener("click", async () => {
     document.getElementById("salesNumLabel").style.visibility = "hidden";
     document.getElementById("instructorIdLabel").style.visibility = "visible";
     document.getElementById("instructorIdSelect").style.visibility = "visible";
-    document.getElementById("instructorIdLabel2").style.visibility = "visible";
-    document.getElementById("instructorIdSelect2").style.visibility = "visible";
+    document.getElementById("checkIns").style.visibility = "visible";
+    document.getElementById("checkInsLabel").style.visibility = "visible";
+    document.getElementById("instructorIdLabel2").style.visibility = "hidden";
+    document.getElementById("instructorIdSelect2").style.visibility = "hidden";
     document.getElementById("customerIdLabel").style.visibility = "hidden";
     document.getElementById("customerIdSelect").style.visibility = "hidden";
 });
@@ -56,6 +60,8 @@ document.getElementById("customerBtn").addEventListener("click", async () => {
     document.getElementById("salesNumLabel").style.visibility = "hidden";
     document.getElementById("instructorIdLabel").style.visibility = "hidden";
     document.getElementById("instructorIdSelect").style.visibility = "hidden";
+    document.getElementById("checkIns").style.visibility = "hidden";
+    document.getElementById("checkInsLabel").style.visibility = "hidden";
     document.getElementById("instructorIdLabel2").style.visibility = "hidden";
     document.getElementById("instructorIdSelect2").style.visibility = "hidden";
     document.getElementById("customerIdLabel").style.visibility = "visible";
@@ -74,6 +80,8 @@ document.getElementById("paymentBtn").addEventListener("click", async () => {
     document.getElementById("salesNumLabel").style.visibility = "hidden";
     document.getElementById("instructorIdLabel").style.visibility = "hidden";
     document.getElementById("instructorIdSelect").style.visibility = "hidden";
+    document.getElementById("checkIns").style.visibility = "hidden";
+    document.getElementById("checkInsLabel").style.visibility = "hidden";
     document.getElementById("instructorIdLabel2").style.visibility = "hidden";
     document.getElementById("instructorIdSelect2").style.visibility = "hidden";
     document.getElementById("customerIdLabel").style.visibility = "hidden";
@@ -101,6 +109,28 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
             alert(`Package data obtained.`);
 
             form.salesNum.value = result.salesCount;
+        } catch (err) {
+            alert("Error: " + err.message);
+        }
+    }
+    else if (formMode === "instructor") {
+        const instructorData = {
+            instructorId: form.instructorId.value.trim(),
+        };
+        try {
+            const res = await fetch("/api/reports/instructor", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(instructorData),
+            });
+
+            const result = await res.json();
+            if (!res.ok)
+                throw new Error(result.message || "Failed to get instructor data.");
+
+            alert(`Instructor data obtained.`);
+
+            form.checkIns.value = result.checkCount;
         } catch (err) {
             alert("Error: " + err.message);
         }

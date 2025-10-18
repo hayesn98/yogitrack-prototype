@@ -3,6 +3,7 @@ const Sale = require("../models/saleModel.cjs");
 const Instructor = require("../models/instructorModel.cjs");
 const Class = require("../models/classModel.cjs");
 const Customer = require("../models/customerModel.cjs");
+const Attend = require("../models/attendModel.cjs");
 
 exports.package = async (req, res) => {
     try {
@@ -28,6 +29,31 @@ exports.package = async (req, res) => {
         res.status(500).json({ message: "Failed to get sales info", error: err.message });
     }
 };
+
+exports.instructor = async (req, res) => {
+    try {
+        const {
+            instructorId
+        } = req.body;
+
+        if (!instructorId) {
+            return res.status(400).json({ message: "Missing instructor." });
+        }
+
+        const allAttends = await Attend.find({});
+        let count = 0;
+        for (let i = 0; i < allAttends.length; i++) {
+            if (allAttends[i].instructorId === instructorId) {
+                count++;
+            }
+        }
+
+        res.status(201).json({ message: "Generated check-in count.", checkCount: count });
+    } catch (err) {
+        console.error("Error getting check-in info:", err.message);
+        res.status(500).json({ message: "Failed to get check-in info", error: err.message });
+    }
+}
 
 exports.getPackageIds = async (req, res) => {
     try {
