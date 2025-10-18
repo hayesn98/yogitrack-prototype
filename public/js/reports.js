@@ -26,6 +26,8 @@ document.getElementById("packageBtn").addEventListener("click", async () => {
     document.getElementById("instructorIdSelect2").style.visibility = "hidden";
     document.getElementById("customerIdLabel").style.visibility = "hidden";
     document.getElementById("customerIdSelect").style.visibility = "hidden";
+    document.getElementById("attendances").style.visibility = "hidden";
+    document.getElementById("attendancesLabel").style.visibility = "hidden";
 });
 
 document.getElementById("instructorBtn").addEventListener("click", async () => {
@@ -46,6 +48,8 @@ document.getElementById("instructorBtn").addEventListener("click", async () => {
     document.getElementById("instructorIdSelect2").style.visibility = "hidden";
     document.getElementById("customerIdLabel").style.visibility = "hidden";
     document.getElementById("customerIdSelect").style.visibility = "hidden";
+    document.getElementById("attendances").style.visibility = "hidden";
+    document.getElementById("attendancesLabel").style.visibility = "hidden";
 });
 
 document.getElementById("customerBtn").addEventListener("click", async () => {
@@ -66,6 +70,8 @@ document.getElementById("customerBtn").addEventListener("click", async () => {
     document.getElementById("instructorIdSelect2").style.visibility = "hidden";
     document.getElementById("customerIdLabel").style.visibility = "visible";
     document.getElementById("customerIdSelect").style.visibility = "visible";
+    document.getElementById("attendances").style.visibility = "visible";
+    document.getElementById("attendancesLabel").style.visibility = "visible";
 });
 
 document.getElementById("paymentBtn").addEventListener("click", async () => {
@@ -86,6 +92,8 @@ document.getElementById("paymentBtn").addEventListener("click", async () => {
     document.getElementById("instructorIdSelect2").style.visibility = "hidden";
     document.getElementById("customerIdLabel").style.visibility = "hidden";
     document.getElementById("customerIdSelect").style.visibility = "hidden";
+    document.getElementById("attendances").style.visibility = "hidden";
+    document.getElementById("attendancesLabel").style.visibility = "hidden";
 });
 
 document.getElementById("generateBtn").addEventListener("click", async () => {
@@ -131,6 +139,28 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
             alert(`Instructor data obtained.`);
 
             form.checkIns.value = result.checkCount;
+        } catch (err) {
+            alert("Error: " + err.message);
+        }
+    }
+    else if (formMode === "customer") {
+        const customerData = {
+            customerId: form.customerId.value.trim(),
+        };
+        try {
+            const res = await fetch("/api/reports/customer", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(customerData),
+            });
+
+            const result = await res.json();
+            if (!res.ok)
+                throw new Error(result.message || "Failed to get customer data.");
+
+            alert(`Customer data obtained.`);
+
+            form.attendances.value = result.attendCount;
         } catch (err) {
             alert("Error: " + err.message);
         }

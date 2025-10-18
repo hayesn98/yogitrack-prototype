@@ -55,6 +55,31 @@ exports.instructor = async (req, res) => {
     }
 }
 
+exports.customer = async (req, res) => {
+    try {
+        const {
+            customerId
+        } = req.body;
+
+        if (!customerId) {
+            return res.status(400).json({ message: "Missing customer." });
+        }
+
+        const allAttends = await Attend.find({});
+        let count = 0;
+        for (let i = 0; i < allAttends.length; i++) {
+            if (allAttends[i].customerId === customerId) {
+                count++;
+            }
+        }
+
+        res.status(201).json({ message: "Generated attendance count.", attendCount: count });
+    } catch (err) {
+        console.error("Error getting attendance info:", err.message);
+        res.status(500).json({ message: "Failed to get attendance info", error: err.message });
+    }
+}
+
 exports.getPackageIds = async (req, res) => {
     try {
         const packages = await Package.find(
