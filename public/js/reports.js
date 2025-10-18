@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setFormForAdd();
     initPackageDropdown();
     initInstructorDropdown();
-    initClassDropdown();
     initCustomerDropdown();
 });
 
@@ -22,8 +21,6 @@ document.getElementById("packageBtn").addEventListener("click", async () => {
     document.getElementById("instructorIdSelect").style.visibility = "hidden";
     document.getElementById("checkIns").style.visibility = "hidden";
     document.getElementById("checkInsLabel").style.visibility = "hidden";
-    document.getElementById("instructorIdLabel2").style.visibility = "hidden";
-    document.getElementById("instructorIdSelect2").style.visibility = "hidden";
     document.getElementById("customerIdLabel").style.visibility = "hidden";
     document.getElementById("customerIdSelect").style.visibility = "hidden";
     document.getElementById("attendances").style.visibility = "hidden";
@@ -44,8 +41,6 @@ document.getElementById("instructorBtn").addEventListener("click", async () => {
     document.getElementById("instructorIdSelect").style.visibility = "visible";
     document.getElementById("checkIns").style.visibility = "visible";
     document.getElementById("checkInsLabel").style.visibility = "visible";
-    document.getElementById("instructorIdLabel2").style.visibility = "hidden";
-    document.getElementById("instructorIdSelect2").style.visibility = "hidden";
     document.getElementById("customerIdLabel").style.visibility = "hidden";
     document.getElementById("customerIdSelect").style.visibility = "hidden";
     document.getElementById("attendances").style.visibility = "hidden";
@@ -66,34 +61,10 @@ document.getElementById("customerBtn").addEventListener("click", async () => {
     document.getElementById("instructorIdSelect").style.visibility = "hidden";
     document.getElementById("checkIns").style.visibility = "hidden";
     document.getElementById("checkInsLabel").style.visibility = "hidden";
-    document.getElementById("instructorIdLabel2").style.visibility = "hidden";
-    document.getElementById("instructorIdSelect2").style.visibility = "hidden";
     document.getElementById("customerIdLabel").style.visibility = "visible";
     document.getElementById("customerIdSelect").style.visibility = "visible";
     document.getElementById("attendances").style.visibility = "visible";
     document.getElementById("attendancesLabel").style.visibility = "visible";
-});
-
-document.getElementById("paymentBtn").addEventListener("click", async () => {
-    const form = document.getElementById("reportsForm");
-    form.reset();
-
-    formMode = "payment";
-
-    document.getElementById("packageIdLabel").style.visibility = "hidden";
-    document.getElementById("packageIdSelect").style.visibility = "hidden";
-    document.getElementById("salesNum").style.visibility = "hidden";
-    document.getElementById("salesNumLabel").style.visibility = "hidden";
-    document.getElementById("instructorIdLabel").style.visibility = "hidden";
-    document.getElementById("instructorIdSelect").style.visibility = "hidden";
-    document.getElementById("checkIns").style.visibility = "hidden";
-    document.getElementById("checkInsLabel").style.visibility = "hidden";
-    document.getElementById("instructorIdLabel2").style.visibility = "hidden";
-    document.getElementById("instructorIdSelect2").style.visibility = "hidden";
-    document.getElementById("customerIdLabel").style.visibility = "hidden";
-    document.getElementById("customerIdSelect").style.visibility = "hidden";
-    document.getElementById("attendances").style.visibility = "hidden";
-    document.getElementById("attendancesLabel").style.visibility = "hidden";
 });
 
 document.getElementById("generateBtn").addEventListener("click", async () => {
@@ -201,23 +172,6 @@ async function initInstructorDropdown() {
   }
 }
 
-async function initClassDropdown() {
-  const select = document.getElementById("instructorIdSelect2");
-  try {
-    const response = await fetch("/api/reports/getClassIds");
-    const classIds = await response.json();
-
-    classIds.forEach((classItem) => {
-        const option = document.createElement("option");
-        option.value = classItem.instructorId;
-        option.textContent = `${classItem.instructorId}:${classItem.day} ${classItem.time}`;
-        select.appendChild(option);
-    });
-  } catch (err) {
-    console.err("Failed to load classes: ", err);
-  }
-}
-
 async function initCustomerDropdown() {
   const select = document.getElementById("customerIdSelect");
   try {
@@ -239,7 +193,6 @@ function clearAttendForm() {
     document.getElementById("reportsForm").reset();
     document.getElementById("packageIdSelect").innerHTML = "";
     document.getElementById("instructorIdSelect").innerHTML = "";
-    document.getElementById("instructorIdSelect2").innerHTML = "";
     document.getElementById("customerIdSelect").innerHTML = "";
 }
 
@@ -253,10 +206,6 @@ function setFormForAdd() {
     document.getElementById("instructorIdTextLabel").style.display = "none";
     document.getElementById("instructorIdText").value = "";
     document.getElementById("instructorIdText").style.display = "none";
-    document.getElementById("instructorIdLabel2").style.display = "block";
-    document.getElementById("instructorIdTextLabel2").style.display = "none";
-    document.getElementById("instructorIdText2").value = "";
-    document.getElementById("instructorIdText2").style.display = "none";
     document.getElementById("customerIdLabel").style.display = "block";
     document.getElementById("customerIdTextLabel").style.display = "none";
     document.getElementById("customerIdText").value = "";

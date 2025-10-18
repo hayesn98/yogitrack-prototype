@@ -7,7 +7,6 @@ router.post("/instructor", reportsController.instructor);
 router.post("/customer", reportsController.customer);
 router.get("/getPackageIds", reportsController.getPackageIds);
 router.get("/getInstructorIds", reportsController.getInstructorIds);
-router.get("/getClassIds", reportsController.getClassIds);
 router.get("/getCustomerIds", reportsController.getCustomerIds);
 
 module.exports = router;

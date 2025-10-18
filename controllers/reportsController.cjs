@@ -1,7 +1,6 @@
 const Package = require("../models/packageModel.cjs");
 const Sale = require("../models/saleModel.cjs");
 const Instructor = require("../models/instructorModel.cjs");
-const Class = require("../models/classModel.cjs");
 const Customer = require("../models/customerModel.cjs");
 const Attend = require("../models/attendModel.cjs");
 
@@ -101,19 +100,6 @@ exports.getInstructorIds = async (req, res) => {
     ).sort();
 
     res.json(instructors);
-  } catch (e) {
-    res.status(400).json({ error: e.message });
-  }
-};
-
-exports.getClassIds = async (req, res) => {
-  try {
-    const classes = await Class.find(
-      {},
-      { instructorId: 1, day: 1, time: 1, _id: 0 }
-    ).sort();
-
-    res.json(classes);
   } catch (e) {
     res.status(400).json({ error: e.message });
   }
