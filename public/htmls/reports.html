@@ -23,10 +23,24 @@
     </nav>
   </aside>
 
-  <!-- Attendance form -->
+  <!-- Reports form -->
   <main class="layout--center">
-    <form class="card" id="attendForm" >
-      <h2>Attendance Details</h2>
+    <form class="card" id="reportsForm" >
+      <h2>Report Details</h2>
+
+      <!-- Package Id-->
+      <label id = "packageIdLabel" for="packageID">Package ID
+        <select name="packageId" id="packageIdSelect" class="form-input" required>
+          <option value=""> -- Select Package Id --</option>
+          <!-- Options will be populated by JavaScript-->
+        </select>
+      </label>
+
+      <label>
+        <!-- Toggle with PackageIdLabel -->
+         <label id="packageIdTextLabel" style="display: none;">Package ID</label>
+         <input id="packageIdText" type="text" readonly/>
+      </label>
 
       <!-- Instructor Id-->
       <label id = "instructorIdLabel" for="instructorID">Instructor ID
@@ -56,7 +70,6 @@
          <input id="instructorIdText2" type="text" readonly/>
       </label>
 
-      <!-- Customer Id-->
       <label id = "customerIdLabel" for="customerID">Customer ID
         <select name="customerId" id="customerIdSelect" class="form-input" required>
           <option value=""> -- Select Customer Id --</option>
@@ -70,25 +83,17 @@
          <input id="customerIdText" type="text" readonly/>
       </label>
 
-      <div class="grid-2">
-        <label>Attendance Date
-          <input type="date" name="date">
-        </label>
-        <label>Attendance Time
-          <input type="time" name="time">
-        </label>
-      </div>
-
       <!-- Action buttons -->
       <div class="btn-row">
-        <button type="button" class="btn", id="classBtn">Find Classes</button>
-        <button type="button" class="btn", id="saveBtn">Save</button>
-        <button type="button" class="btn" onclick="clearAttendForm()">Clear</button>
+        <button type="button" class="btn", id="packageBtn">Package Sales</button>
+        <button type="button" class="btn", id="instructorBtn">Instructors</button>
+        <button type="button" class="btn", id="customerBtn">Customers</button>
+        <button type="button" class="btn", id="paymentBtn">Payment Report</button>
         <a href="dashboard.html" class="btn">Exit</a>
       </div>
     </form>
   </main>
 
-<script src="../js/attend.js"></script>
+<script src="../js/reports.js"></script>
 </body>
 </html>

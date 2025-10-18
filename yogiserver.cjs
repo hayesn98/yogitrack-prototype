@@ -11,6 +11,7 @@ app.use("/api/package", require("./routes/packageRoutes.cjs"));
 app.use("/api/class", require("./routes/classRoutes.cjs"));
 app.use("/api/sale", require("./routes/saleRoutes.cjs"));
 app.use("/api/attend", require("./routes/attendRoutes.cjs"));
+app.use("/api/reports", require("./routes/reportsRoutes.cjs"));
 
 
 // Start the web server
