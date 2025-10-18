@@ -42,12 +42,36 @@ exports.add = async (req, res) => {
             instructorId,
             customerId,
             date,
-            time
+            time,
+            forceAdd,
+            classDate,
+            classTime
         } = req.body;
 
         if (!instructorId || !customerId || !date || !time) {
             return res.status(400).json({ message: "Missing required fields" });
         }
+
+        if (classDate != date || classTime != time) {
+            return res.status(400).json({ message: "The date or time does not match the class." });
+        }
+
+        const theCustomer = await Customer.findOne({ customerId: customerId });
+
+        if (!forceAdd) {
+            if (theCustomer.classBalance <= 0) {
+                return res.status(409).json({
+                    message: "This customer does not have the required balance. Do you still want to proceed?",
+                    duplicate: true
+                });
+            }
+        }
+
+        const updateCustomer = await Customer.findOneAndUpdate(
+            { customerId: customerId },
+            { $inc: {classBalance: -1 } },
+            { new: true }
+        );
 
         const newAttend = new Attend({ 
             instructorId,
@@ -57,7 +81,7 @@ exports.add = async (req, res) => {
         });
 
         await newAttend.save();
-        res.status(201).json({ message: "Attendance added successfully", attend1: newAttend });
+        res.status(201).json({ message: "Hello " + theCustomer.firstname + "! You are checked-in for a class on " + date + " at " + time + ". Your class-balance is " + theCustomer.classBalance + ".", attend1: newAttend });
     } catch (err) {
         console.error("Error adding attendance:", err.message);
         res.status(500).json({ message: "Failed to add attendance", error: err.message });

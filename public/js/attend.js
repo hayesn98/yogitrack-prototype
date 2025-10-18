@@ -24,6 +24,13 @@ document.getElementById("classBtn").addEventListener("click", async () => {
 document.getElementById("saveBtn").addEventListener("click", async () => {
     if (formMode === "add") {
         const form = document.getElementById("attendForm");
+        const selectedClass = document.getElementById("instructorIdSelect2");
+        const classOptions = selectedClass.options[selectedClass.selectedIndex];
+
+        if (!classOptions || !classOptions.value) {
+            alert("Please select a class.");
+            return;
+        }
 
         const attendData = {
             instructorId: form.instructorId.value.trim(),
@@ -31,15 +38,39 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
             date: form.date.value.trim(),
             time: form.time.value.trim(),
         };
+
+        attendData.classDate = classOptions.dataset.day;
+        attendData.classTime = classOptions.dataset.time;
+
         try {
-            const res = await fetch("/api/attend/add", {
+            let res = await fetch("/api/attend/add", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(attendData),
             });
 
-            const result = await res.json();
-            if (!res.ok)
+            let result = await res.json();
+
+            if (res.status === 409 && result.duplicate) {
+                if (confirm(`${result.message}`)) {
+                    attendData.forceAdd = true;
+
+                    res = await fetch("/api/attend/add", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(attendData),
+                    });
+
+                    result = await res.json();
+
+                    if (!res.ok)
+                        throw new Error(result.message || "Failed to add attendance");
+                }
+                else {
+                    throw new Error("Attendance was not added.");
+                }
+            }
+            else if (!res.ok)
                 throw new Error(result.message || "Failed to add attendance");
 
             alert(`✅ Attendance added successfully!`);
@@ -79,6 +110,8 @@ async function initClassDropdown(givenId) {
         const option = document.createElement("option");
         option.value = classItem.instructorId;
         option.textContent = `${classItem.instructorId}:${classItem.day} ${classItem.time}`;
+        option.dataset.day = classItem.day;
+        option.dataset.time = classItem.time;
         select.appendChild(option);
       }
     });

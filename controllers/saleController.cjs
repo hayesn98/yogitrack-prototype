@@ -43,7 +43,7 @@ exports.add = async (req, res) => {
 
         const thePackage = await Package.findOne({ packageId: packageId });
         if ((thePackage.startdate != startDate) || (thePackage.enddate != endDate)) {
-            return res.status(400).json({ message: "The start and end dates do not match the selected package." + startDate});
+            return res.status(400).json({ message: "The start and end dates do not match the selected package." });
         }
 
         let [hours, minutes] = time.split(":").map(Number);
