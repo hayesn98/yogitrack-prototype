@@ -1,9 +1,110 @@
+let formMode = "none";
+
 document.addEventListener("DOMContentLoaded", () => {
     setFormForAdd();
     initPackageDropdown();
     initInstructorDropdown();
     initClassDropdown();
     initCustomerDropdown();
+});
+
+document.getElementById("packageBtn").addEventListener("click", async () => {
+    const form = document.getElementById("reportsForm");
+    form.reset();
+
+    formMode = "package";
+
+    document.getElementById("packageIdLabel").style.visibility = "visible";
+    document.getElementById("packageIdSelect").style.visibility = "visible";
+    document.getElementById("salesNum").style.visibility = "visible";
+    document.getElementById("salesNumLabel").style.visibility = "visible";
+    document.getElementById("instructorIdLabel").style.visibility = "hidden";
+    document.getElementById("instructorIdSelect").style.visibility = "hidden";
+    document.getElementById("instructorIdLabel2").style.visibility = "hidden";
+    document.getElementById("instructorIdSelect2").style.visibility = "hidden";
+    document.getElementById("customerIdLabel").style.visibility = "hidden";
+    document.getElementById("customerIdSelect").style.visibility = "hidden";
+});
+
+document.getElementById("instructorBtn").addEventListener("click", async () => {
+    const form = document.getElementById("reportsForm");
+    form.reset();
+
+    formMode = "instructor";
+
+    document.getElementById("packageIdLabel").style.visibility = "hidden";
+    document.getElementById("packageIdSelect").style.visibility = "hidden";
+    document.getElementById("salesNum").style.visibility = "hidden";
+    document.getElementById("salesNumLabel").style.visibility = "hidden";
+    document.getElementById("instructorIdLabel").style.visibility = "visible";
+    document.getElementById("instructorIdSelect").style.visibility = "visible";
+    document.getElementById("instructorIdLabel2").style.visibility = "visible";
+    document.getElementById("instructorIdSelect2").style.visibility = "visible";
+    document.getElementById("customerIdLabel").style.visibility = "hidden";
+    document.getElementById("customerIdSelect").style.visibility = "hidden";
+});
+
+document.getElementById("customerBtn").addEventListener("click", async () => {
+    const form = document.getElementById("reportsForm");
+    form.reset();
+
+    formMode = "customer";
+
+    document.getElementById("packageIdLabel").style.visibility = "hidden";
+    document.getElementById("packageIdSelect").style.visibility = "hidden";
+    document.getElementById("salesNum").style.visibility = "hidden";
+    document.getElementById("salesNumLabel").style.visibility = "hidden";
+    document.getElementById("instructorIdLabel").style.visibility = "hidden";
+    document.getElementById("instructorIdSelect").style.visibility = "hidden";
+    document.getElementById("instructorIdLabel2").style.visibility = "hidden";
+    document.getElementById("instructorIdSelect2").style.visibility = "hidden";
+    document.getElementById("customerIdLabel").style.visibility = "visible";
+    document.getElementById("customerIdSelect").style.visibility = "visible";
+});
+
+document.getElementById("paymentBtn").addEventListener("click", async () => {
+    const form = document.getElementById("reportsForm");
+    form.reset();
+
+    formMode = "payment";
+
+    document.getElementById("packageIdLabel").style.visibility = "hidden";
+    document.getElementById("packageIdSelect").style.visibility = "hidden";
+    document.getElementById("salesNum").style.visibility = "hidden";
+    document.getElementById("salesNumLabel").style.visibility = "hidden";
+    document.getElementById("instructorIdLabel").style.visibility = "hidden";
+    document.getElementById("instructorIdSelect").style.visibility = "hidden";
+    document.getElementById("instructorIdLabel2").style.visibility = "hidden";
+    document.getElementById("instructorIdSelect2").style.visibility = "hidden";
+    document.getElementById("customerIdLabel").style.visibility = "hidden";
+    document.getElementById("customerIdSelect").style.visibility = "hidden";
+});
+
+document.getElementById("generateBtn").addEventListener("click", async () => {
+    const form = document.getElementById("reportsForm");
+
+    if (formMode === "package") {
+        const packageData = {
+            packageId: form.packageId.value.trim(),
+        };
+        try {
+            const res = await fetch("/api/reports/package", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(packageData),
+            });
+
+            const result = await res.json();
+            if (!res.ok)
+                throw new Error(result.message || "Failed to get package data.");
+
+            alert(`Package data obtained.`);
+
+            form.salesNum.value = result.salesCount;
+        } catch (err) {
+            alert("Error: " + err.message);
+        }
+    }
 });
 
 async function initPackageDropdown() {
@@ -83,6 +184,7 @@ function clearAttendForm() {
 }
 
 function setFormForAdd() {
+    formMode = "none";
     document.getElementById("packageIdLabel").style.display = "block";
     document.getElementById("packageIdTextLabel").style.display = "none";
     document.getElementById("packageIdText").value = "";

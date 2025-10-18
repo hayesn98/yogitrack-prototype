@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const reportsController = require("../controllers/reportsController.cjs");
 
-//router.post("/add", attendController.add);
+router.post("/package", reportsController.package);
 router.get("/getPackageIds", reportsController.getPackageIds);
 router.get("/getInstructorIds", reportsController.getInstructorIds);
 router.get("/getClassIds", reportsController.getClassIds);
